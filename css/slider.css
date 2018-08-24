@@ -1,0 +1,15 @@
+#carrousel{
+    position:relative;
+    height:1000px;
+    width:1600px;
+    margin:auto;
+}
+#carrousel ul li img{
+    position:absolute;
+    top:0;
+    left:0;
+    height:1000px;
+    width:1600px;
+}
+
+
