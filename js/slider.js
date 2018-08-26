@@ -11,9 +11,9 @@ $('document').ready(function(){
             
             i++; 
             if (i<=$indexImg) {
-                $img.css('display','none');
+                $img.hide();
                 $currentImg = $img.eq(i);
-                $currentImg.css('display','block');
+                $currentImg.fadeIn();
             }
             else {
                 i=$indexImg;
@@ -24,9 +24,9 @@ $('document').ready(function(){
       
             i--;
             if (i>= 0) {
-                $img.css('display','none');
+                $img.hide();
                 $currentImg = $img.eq(i);
-                $currentImg.css('display','block');
+                $currentImg.fadeIn();
             }
             else {
                 i=0;
@@ -40,15 +40,15 @@ $('document').ready(function(){
         
                 if (i<$indexImg) {
                     i++;
-                    $img.css('display','none');
+                    $img.hide();
                     $currentImg = $img.eq(i);
-                    $currentImg.css('display','block');
+                    $currentImg.fadeIn();
                 }
                 else {
                     i=0;
-                    $img.css('display','none');
+                    $img.hide();
                     $currentImg = $img.eq(i);
-                    $currentImg.css('display','block');
+                    $currentImg.fadeIn();
                 }    
                 Slider.defiler();  
             }, 3000);
