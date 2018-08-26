@@ -2,7 +2,8 @@
     position:relative;
     height:1000px;
     width:1600px;
-    margin:auto;
+    margin:0;
+    border:1px solid transparent;
 }
 #carrousel ul li img{
     position:absolute;
@@ -12,4 +13,10 @@
     width:1600px;
 }
 
+#carrousel ul {
+    list-style-type : none;
+}
 
+body {
+    margin:0;
+}
