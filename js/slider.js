@@ -51,7 +51,7 @@ $('document').ready(function(){
                     $currentImg.css('display','block');
                 }    
                 Slider.defiler();  
-            }, 9000);
+            }, 3000);
         },
         
         init : function() {
