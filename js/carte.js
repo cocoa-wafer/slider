@@ -1,12 +1,15 @@
-$('document').ready(function(){
-    
-    var $img = $('#carrousel img'),
+/* slider */    
+
+
+var $img = $('#carrousel img'),
     $indexImg = $img.length-1,
     $currentImg = $img.eq(i);
     var i=0;
-    var $document = $(document);
-    
+    var $document = $(document); 
+
+
     var Slider = {
+
         avancer : function() {         
             
             i++; 
@@ -71,6 +74,56 @@ $('document').ready(function(){
     };
 
     Slider.init();
+
+
+
+/* initialiser la map google */
+
+var Map = {
     
     
-});
+  initMap: function() {
+      
+      var lyon = {lat:45.764043, lng:4.835658999999964};
+      var map = new google.maps.Map(document.getElementById('map'), {zoom: 12, center: lyon});
+     /* var marker = new google.maps.Marker({position: lyon, map: map}); */
+      
+  }
+    
+};
+
+Map.initMap();
+
+
+/*  jcdecaux   */
+
+
+var Stations = {
+    
+        ajaxGet : function(url,callback) {
+        var req = new XMLHttpRequest();
+        req.open("GET", url);
+        req.addEventListener("load", function () {
+                callback(req.responseText);
+        });
+
+        req.send(null);
+        },
+    
+        init : function() {
+            Stations.ajaxGet("https://api.jcdecaux.com/vls/v1/stations?contract=Lyon&apiKey=8a21045d07375cf3ca1a9fbd663ca141df365f16", function(reponse) {
+                var stations = JSON.parse(reponse);
+                stations.forEach(function (station) {
+                console.log(station.lat);
+                console.log(station.lng);
+
+                });
+                          
+            })
+    
+        }
+}
+
+Stations.init();
+
+
