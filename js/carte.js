@@ -110,13 +110,18 @@ var Stations = {
         req.send(null);
         },
     
+    
         init : function() {
             Stations.ajaxGet("https://api.jcdecaux.com/vls/v1/stations?contract=Lyon&apiKey=8a21045d07375cf3ca1a9fbd663ca141df365f16", function(reponse) {
-                var stations = JSON.parse(reponse);
+                var stations = []; 
+                stations.push(JSON.parse(reponse));
                 stations.forEach(function (station) {
-                console.log(station.lat);
-                console.log(station.lng);
-
+                    var LatLng = new google.maps.LatLng(station.lat,station.lng),
+                    marker = new.google.maps.Marker({
+                        position: LatLng,
+                        title : station.address;
+                    });
+                    marker.setMap(map);
                 });
                           
             })
@@ -125,5 +130,3 @@ var Stations = {
 }
 
 Stations.init();
-
-
