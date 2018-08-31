@@ -4,6 +4,9 @@
         <meta charset="utf-8"/>
         <title>Slider</title>
         <link rel="stylesheet" href="css/style.css"/>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGPHfZras34eZHvUuZXGPEuxTKHfV3ryM">
+                </script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     </head>
     
     <body>
@@ -18,24 +21,29 @@
                 <li><img src="velo3.jpg" /></li>
 
             </ul>
+            
+            <ul id="defileur">
+                <li id="prev"><i class="fas fa-chevron-left"></i></li>
+                <li id="next"><i class="fas fa-chevron-right"></i></li>
+            </ul>
+            
         </div>
+
         
         <div id="map"></div>
 
         
-         </script>
+
     <!--Load the API from the specified URL
     * The async attribute allows the browser to render the page while the API loads
     * The key parameter will contain your own API key (which is not needed for this tutorial)
     * The callback parameter executes the initMap() function
     -->
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=
-AIzaSyCGPHfZras34eZHvUuZXGPEuxTKHfV3ryM
-&callback=initMap">
-    </script>
-
         <script src="https://code.jquery.com/jquery-1.12.3.js"   integrity="sha256-1XMpEtA4eKXNNpXcJ1pmMPs8JV+nwLdEqwiJeCQEkyc="   crossorigin="anonymous"></script>
-        <script src="js/carte.js"></script>
+        <script src="js/Slider.js"></script>
+        <script src="js/Map.js"></script>
+        <script src="js/Stations.js"></script>
+        <script src="js/master.js"></script>
+
     </body>
 </html>
