@@ -9,8 +9,10 @@ var Map = {
         });
         marker.setMap(map); */
         
-        var reponse = Stations.init();
-        console.log(reponse);
+       var reponse = [];
+           reponse.push(Stations.init());
+        reponse.push('a');
+        console.log(reponse); 
     }, 
     
   initMap: function() {

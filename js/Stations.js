@@ -13,7 +13,11 @@ var Stations = {
     
         init : function() {
             this.ajaxGet("https://api.jcdecaux.com/vls/v1/stations?contract=Lyon&apiKey=8a21045d07375cf3ca1a9fbd663ca141df365f16", function(reponse) {
-                var reponses = JSON.parse(reponse);
+                this.stations = [];
+                this.reponses = JSON.parse(reponse);
+                reponses.forEach(function (reponse) {
+                   stations.push(reponse) ;
+                });
                 return reponses;
             });
         },

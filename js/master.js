@@ -1,7 +1,6 @@
 
 Slider.init();
-
-Map.initMap();
-
-
 Stations.init();
+Map.initMap();
+Map.setMarker();
+
