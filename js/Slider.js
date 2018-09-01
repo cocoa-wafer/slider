@@ -1,35 +1,42 @@
 /* slider */    
 
-
-var $img = $('#carrousel img'),
-    $indexImg = $img.length-1,
-    $currentImg = $img.eq(i);
-    var i=0;
-    var $document = $(document); 
-
-
     var Slider = {
-
-        avancer : function() {         
+        
+        
+        img = $("#carrousel img");
+        
+        
+        avancer : function() {  
+        
+        var indexImg = img.length-1;
+        var currentImg = img.eq(i);
+        var i=0;
+        var document = $(document); 
+            
+            
             
             i++; 
-            if (i<=$indexImg) {
-                $img.hide();
-                $currentImg = $img.eq(i);
-                $currentImg.fadeIn();
+            if (i<=indexImg) {
+                img.hide();
+                currentImg = img.eq(i);
+                currentImg.fadeIn();
             }
             else {
-                i=$indexImg;
+                i=indexImg;
             } 
         },
         
         reculer : function() {
+                    var indexImg = img.length-1;
+        var currentImg = img.eq(i);
+        var i=0;
+        var document = $(document); 
       
             i--;
             if (i>= 0) {
-                $img.hide();
-                $currentImg = $img.eq(i);
-                $currentImg.fadeIn();
+                img.hide();
+                currentImg = img.eq(i);
+                currentImg.fadeIn();
             }
             else {
                 i=0;
@@ -39,42 +46,53 @@ var $img = $('#carrousel img'),
         
         defiler: function() {
             
+                    var indexImg = img.length-1;
+        var currentImg = img.eq(i);
+        var i=0;
+        var document = $(document); 
+             
+            
             setTimeout(function(){
+
         
-                if (i<$indexImg) {
+                if (i<indexImg) {
                     i++;
-                    $img.hide();
-                    $currentImg = $img.eq(i);
-                    $currentImg.fadeIn();
+                    img.hide();
+                    currentImg = img.eq(i);
+                    currentImg.fadeIn();
+                     
                 }
                 else {
                     i=0;
-                    $img.hide();
-                    $currentImg = $img.eq(i);
-                    $currentImg.fadeIn();
+                    img.hide();
+                    currentImg = img.eq(i);
+                    currentImg.fadeIn();
+                    
                 }    
-                Slider.defiler();  
+                this.defiler();  
             }, 3000);
         },
         
         init : function() {
             
-            Slider.defiler();
+            
+    
+            this.defiler();
             
             $('#next').on('click',function(){
-                Slider.avancer();
+                this.avancer();
             });
             
             $('#prev').on('click',function() {
-                Slider.reculer();
+                this.reculer();
             });
             
             $document.on('keydown',function(e) {
                 if (e.keyCode ==39) {
-                    Slider.avancer();
+                    this.avancer();
                 }
                 else if (e.keyCode ==37) {
-                    Slider.reculer();
+                    this.reculer();
                 }
             });
         }

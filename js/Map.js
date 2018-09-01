@@ -1,18 +1,25 @@
 var Map = {
     
     setMarker : function() {
-
-        /*var LatLng = new google.maps.LatLng(station.lat,station.lng);
-        var marker = new.google.maps.Marker({
-            position: LatLng,
-            title : station.address;
-        });
-        marker.setMap(map); */
+        var reponses = Stations.init();
         
-       var reponse = [];
-           reponse.push(Stations.init());
-        reponse.push('a');
-        console.log(reponse); 
+        var stations = [];
+        reponses.forEach(function(reponse) {
+            stations.push(reponse);
+        });
+
+        for (var i =0 ; i < stations.length; i++) {
+            var LatLng = new google.maps.LatLng(stations[i].position.lat,stations[i].position.lng);
+            var marker = new.google.maps.Marker({
+            position: LatLng,
+            title : stations[i].address;
+        });
+            marker.setMap(this.initMap()); 
+        }
+
+        
+        
+
     }, 
     
   initMap: function() {
