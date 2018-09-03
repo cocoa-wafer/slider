@@ -3,96 +3,88 @@
     var Slider = {
         
         
-        img = $("#carrousel img");
-        
+        img : $("#carrousel img"),
+        i:0,
         
         avancer : function() {  
         
-        var indexImg = img.length-1;
-        var currentImg = img.eq(i);
-        var i=0;
-        var document = $(document); 
+        var indexImg = this.img.length-1;
+        var currentImg = this.img.eq(this.i);
             
             
-            
-            i++; 
-            if (i<=indexImg) {
-                img.hide();
-                currentImg = img.eq(i);
+            this.i++; 
+            if (this.i<=indexImg) {
+                this.img.hide();
+                currentImg = this.img.eq(this.i);
                 currentImg.fadeIn();
             }
             else {
-                i=indexImg;
+                this.i=indexImg;
             } 
         },
         
         reculer : function() {
-                    var indexImg = img.length-1;
-        var currentImg = img.eq(i);
-        var i=0;
-        var document = $(document); 
+        var indexImg = this.img.length-1;
+        var currentImg = this.img.eq(this.i);
       
-            i--;
-            if (i>= 0) {
-                img.hide();
-                currentImg = img.eq(i);
+            this.i--;
+            if (this.i>= 0) {
+                this.img.hide();
+                currentImg = this.img.eq(this.i);
                 currentImg.fadeIn();
             }
             else {
-                i=0;
+                this.i=0;
             }
             
         },
         
         defiler: function() {
-            
-                    var indexImg = img.length-1;
-        var currentImg = img.eq(i);
-        var i=0;
-        var document = $(document); 
+
+            var indexImg = this.img.length-1;
+            var currentImg = this.img.eq(this.i);
              
             
             setTimeout(function(){
 
         
-                if (i<indexImg) {
-                    i++;
-                    img.hide();
-                    currentImg = img.eq(i);
+                if (Slider.i<indexImg) {
+                    Slider.i++;
+                    Slider.img.hide();
+                    currentImg = Slider.img.eq(Slider.i);
                     currentImg.fadeIn();
                      
                 }
                 else {
-                    i=0;
-                    img.hide();
-                    currentImg = img.eq(i);
+                    Slider.i=0;
+                    Slider.img.hide();
+                    currentImg = Slider.img.eq(Slider.i);
                     currentImg.fadeIn();
                     
                 }    
-                this.defiler();  
+                Slider.defiler();  
             }, 3000);
         },
         
         init : function() {
-            
-            
+        
     
             this.defiler();
             
             $('#next').on('click',function(){
-                this.avancer();
+                Slider.avancer();
             });
             
             $('#prev').on('click',function() {
-                this.reculer();
+                Slider.reculer();
             });
             
-            $document.on('keydown',function(e) {
+           $(document).on('keydown',function(e) {
                 if (e.keyCode ==39) {
-                    this.avancer();
+                    Slider.avancer();
                 }
                 else if (e.keyCode ==37) {
-                    this.reculer();
+                    Slider.reculer();
                 }
             });
         }
