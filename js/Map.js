@@ -1,32 +1,30 @@
 var Map = {
     
-    setMarker : function() {
-        var reponses = Stations.init();
-        
-        var stations = [];
-        reponses.forEach(function(reponse) {
-            stations.push(reponse);
-        });
+    
+    setMarker: function() {
+        Stations.init();
 
-        for (var i =0 ; i < stations.length; i++) {
-            var LatLng = new google.maps.LatLng(stations[i].position.lat,stations[i].position.lng);
-            var marker = new.google.maps.Marker({
-            position: LatLng,
-            title : stations[i].address;
-        });
-            marker.setMap(this.initMap()); 
-        }
 
-        
-        
+         for (var i =0 ; i < Stations.latitude.length; i++) {
+            var myLatlng = new google.maps.LatLng(Stations.latitude[i],Stations.longitude[i]);
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                title:Stations.adresse[i],
+                setMap:map
+            });
 
-    }, 
+        }; 
+    },
     
   initMap: function() {
       
-      var lyon = {lat:45.764043, lng:4.835658999999964};
-      var map = new google.maps.Map(document.getElementById('map'), {zoom: 12, center: lyon});
+     var lyon = {lat:45.764043, lng:4.835658999999964};
+     var map = new google.maps.Map(document.getElementById('map'), {zoom: 12, center: lyon});
+
       
   }
     
 };
+
+
+
