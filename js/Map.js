@@ -2,7 +2,7 @@ var Map = {
     
     
     setMarker: function() {
-        Stations.init();
+
 
 
          for (var i =0 ; i < Stations.latitude.length; i++) {
@@ -10,7 +10,7 @@ var Map = {
             var marker = new google.maps.Marker({
                 position: myLatlng,
                 title:Stations.adresse[i],
-                setMap:map
+                setMap:document.getElementById('map')
             });
 
         }; 
