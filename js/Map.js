@@ -12,9 +12,13 @@ var Map = {
                 status:Stations.status[i],
                 placedispo:Stations.placeDispo[i],
                 velodispo:Stations.veloDispo[i],
+
                 map:map
             });
             this.markers.push(marker);
+            marker.addListener('click', function() {
+                document.getElementById('status').textContent = marker.status;
+            });
         }; 
 
         
