@@ -26,7 +26,7 @@ body {
 
 
 #map {
-    width:100%;
+    width:60%;
     height:720px;
     margin-top:50px;
 }
@@ -63,4 +63,12 @@ body {
     text-align:center;
     border-top-right-radius: 50px;
     border-bottom-right-radius:50px;
+}
+
+
+
+#status {
+    width:20%;
+    height:auto;
+
 }

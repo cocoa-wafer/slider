@@ -3,6 +3,9 @@ var Stations = {
         latitude : [] ,
         longitude : [],
         adresse : [],
+        status : [],
+        veloDispo : [],
+        placeDispo : [] ,
         
         ajaxGet : function(url,callback) {
         var req = new XMLHttpRequest();
@@ -30,6 +33,9 @@ var Stations = {
                     Stations.latitude.push(reponse.position.lat);
                     Stations.longitude.push(reponse.position.lng);
                     Stations.adresse.push(reponse.address);
+                    Stations.status.push(reponse.status);
+                    Stations.veloDispo.push(reponse.available_bikes);
+                    Stations.placeDispo.push(reponse.available_bike_stands);
 
                 });
                 
