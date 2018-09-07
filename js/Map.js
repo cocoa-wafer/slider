@@ -17,13 +17,16 @@ var Map = {
             });
             this.markers.push(marker);
             marker.addListener('click', function() {
-                document.getElementById('status').textContent = marker.status;
+                document.getElementById('status').textContent = " statut : " + marker.status;
+                document.getElementById('status').textContent += " places disponibles : " + marker.placedispo;
+                document.getElementById('status').textContent += " velos disponibles : " + marker.velodispo;
             });
         }; 
 
         
         var options = {
             imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+        // ajouter conditions pour differents marqueurs
         };
 
         var markerCluster = new MarkerClusterer(map, this.markers, options);
@@ -38,7 +41,7 @@ var Map = {
      map = new google.maps.Map(document.getElementById('map'), {zoom: 12, center: lyon});
 
     }
-    
+    // nouvelle fonction pour gérer les réservations 
 };
 
 

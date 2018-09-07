@@ -90,3 +90,5 @@
         }
 
     };
+
+//descriptif du concept dans slider avec les marqueurs
