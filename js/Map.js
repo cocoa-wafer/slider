@@ -6,9 +6,11 @@ var Map = {
     
     setMarker: function() {
         
+        
+        //creation de la boucle avdec les infos de station
          for (var i =0 ; i < Stations.latitude.length; i++) {
             var myLatlng = new google.maps.LatLng(Stations.latitude[i],Stations.longitude[i]);
-             
+             //creation des markers
             var marker = new google.maps.Marker({
                 position: myLatlng,
                 title:Stations.adresse[i],
@@ -19,7 +21,7 @@ var Map = {
                 map:map
             });
 
-             
+             //event specialise pour chaque marker
         marker.addListener('click', function() {
             var velo = this.velodispo;
             var station = this.title;
@@ -86,6 +88,7 @@ var Map = {
                 
                 //reservation
                 $('#reserver').on('click',function(e){
+                    //ajouter condition de formulaire rempli plus canva rempli
                     e.preventDefault();
                     document.getElementById('timer').textContent="";
                     var prenom = $('#prenom').val();
@@ -105,10 +108,12 @@ var Map = {
                         document.getElementById('resa').appendChild(attentionElt);
                         document.getElementById('resa').appendChild(annulerElt);
                         
+                        
+                        
+                         document.getElementById('timer').textContent = "Station deja reservee en attente";
                     
                     
                         $('#annuler').on('click',function(){
-                            velo = velo+1;
                             window.sessionStorage.clear();
                                 
                            document.getElementById('resa').removeChild(attentionElt);
@@ -125,7 +130,7 @@ var Map = {
                     } else {
 
                         velo= velo-1;
-
+                        document.getElementById('velos').textContent = "velos dispos: " + velo;
                         //stocke dans le storage
                         sessionStorage.setItem('station',station);
                         sessionStorage.setItem('velo',velo);
@@ -210,7 +215,7 @@ var Map = {
                             
                             if (difference >= 1200000) {
                                  document.getElementById('timer').innerHTML = "réservation expirée";
-                                 velo = velo+1;
+                                
                                  window.sessionStorage.clear();
                                  document.getElementById('resa').removeChild(annulerElt);                
                                 document.getElementById('formulaire').appendChild(reserverElt);
@@ -221,21 +226,10 @@ var Map = {
                         
                         var myVar = setInterval(diminuerCompteur,1000);
 
-
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        //actualise nb de velo a corriger
-                         //document.getElementById('velos').textContent = "vélos dispos: " + velo;
                         
                         $('#annuler').on('click',function(){
                             velo = velo+1;
+                            document.getElementById('velos').textContent = "velos dispos: " + velo;
                             window.sessionStorage.clear();
                                 
 
@@ -246,6 +240,7 @@ var Map = {
                             
                             document.getElementById('timer').textContent = "Reservation annulée";
                              document.getElementById('velos').textContent = "vélos dispos: " + velo;
+                            clearInterval(myVar);
                             
                         });
                         
