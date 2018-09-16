@@ -170,6 +170,11 @@ var Map = {
                         sessionStorage.setItem('time',timestamp);
                         
                         var difference = 0;
+                        
+                            var min = 20 ;
+                            var sec = "0"+0 ;
+                            var time = min + " : " + sec;
+                  
                         // Diminue le compteur jusqu'à 0
                         function diminuerCompteur() {
                             //recup premiere date
@@ -181,8 +186,29 @@ var Map = {
                             // part de 0 puis augmente. millisecondes de difference par seconde.
                             difference = f - resaTimestamp;
 
-                            compteurElt.innerHTML = difference;
-                            if (difference >= 10000) {
+                                    if (sec == 0) {
+                                        
+                                        if (min != 0) {
+                                            min--;
+                                            sec = 59;
+                                            if (min < 10) {
+                                                min = "0" + min;
+                                            }
+                                        }
+                                         compteurElt.innerHTML = min + ":" + sec ;
+                                    } else {
+                                        
+                                        sec--;
+                                        if (sec < 10) { 
+                                            sec = "0" + sec;
+                                        }
+                                         compteurElt.innerHTML = min + ":" + sec ;
+                                    } 
+
+                            
+                            
+                            
+                            if (difference >= 1200000) {
                                  document.getElementById('timer').innerHTML = "réservation expirée";
                                  velo = velo+1;
                                  window.sessionStorage.clear();
@@ -196,6 +222,13 @@ var Map = {
                         var myVar = setInterval(diminuerCompteur,1000);
 
 
+                        
+                        
+                        
+                        
+                        
+                        
+                        
                         
                         
                         //actualise nb de velo a corriger
