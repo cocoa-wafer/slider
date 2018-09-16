@@ -23,8 +23,6 @@ var Map = {
         marker.addListener('click', function() {
             var velo = this.velodispo;
             var station = this.title;
-            var prenom = $('#prenom').val();
-            var nom = $('#nom').val();
             
             document.getElementById('status').innerHTML = " ";
             document.getElementById('resa').innerHTML = " ";
@@ -59,75 +57,173 @@ var Map = {
             nomInput.id="nom";
             nomElt.textContent = "Nom: ";
             nomElt.appendChild(nomInput);
-            var reserverElt = document.createElement('input');
-            reserverElt.id="reserver";
-            reserverElt.type="submit";
-            reserverElt.value="reserver";
+            var signerElt = document.createElement('input');
+            signerElt.id="signer";
+            signerElt.type="button";
+            signerElt.value="signer";
             
             formElt.appendChild(prenomElt);
             formElt.appendChild(nomElt);
-            formElt.appendChild(reserverElt);
+            formElt.appendChild(signerElt);
             
             document.getElementById('resa').appendChild(formElt);
             
             
-            //gere les resa
-            $('#reserver').on('click',function(e) {
-                document.getElementById('timer').textContent="";
+            //affiche canva plus confirmation
+            $('#signer').on('click',function(e) {
+                e.preventDefault();
+                var canvaElt = document.createElement("canvas");
+                canvaElt.id="canva";
+                document.getElementById('resa').appendChild(canvaElt);
+                var reserverElt = document.createElement('input');
+                reserverElt.id="reserver";
+                reserverElt.type="submit";
+                reserverElt.value = " réserver";
+                document.getElementById('formulaire').removeChild(signerElt);
+                document.getElementById('formulaire').appendChild(reserverElt);
                 
-                if (sessionStorage.getItem('station')) {
+                
+                
+                //reservation
+                $('#reserver').on('click',function(e){
                     e.preventDefault();
-                    console.log('if marche');
+                    document.getElementById('timer').textContent="";
+                    var prenom = $('#prenom').val();
+                    var nom = $('#nom').val();
                     var annulerElt = document.createElement('button');
-                    annulerElt.id="annuler";
-                    annulerElt.textContent="annuler la reservation";
-                    document.getElementById('resa').appendChild(annulerElt);
+                        var attentionElt = document.createElement('p');
+                        attentionElt.textContent ="station deja reservee en attente";
+                        annulerElt.id="annuler";
+                        attentionElt.id="attention";
+                        annulerElt.textContent="annuler la reservation";
+                
+                    if (sessionStorage.getItem('station')) {
+                        
+                        document.getElementById('formulaire').removeChild(reserverElt);
+                        document.getElementById('resa').removeChild(canvaElt);
+                        
+                        document.getElementById('resa').appendChild(attentionElt);
+                        document.getElementById('resa').appendChild(annulerElt);
+                        
                     
                     
-                    $('#annuler').on('click',function(){
-                        window.sessionStorage.clear();
-   
-                    document.getElementById('timer').textContent = "Reservation annulée";
-                                            velo = velo+1;
-                          document.getElementById('velos').textContent = "velos dispos: " + velo;
+                        $('#annuler').on('click',function(){
+                            velo = velo+1;
+                            window.sessionStorage.clear();
+                                
+                           document.getElementById('resa').removeChild(attentionElt);
+                            document.getElementById('resa').removeChild(annulerElt); 
+                            
+                            document.getElementById('formulaire').appendChild(reserverElt);
+                        document.getElementById('resa').appendChild(canvaElt);
+                            
+                            document.getElementById('timer').textContent = "Reservation annulée";
+
+                        });
+                    
+                    
+                    } else {
+
+                        velo= velo-1;
+
+                        //stocke dans le storage
+                        sessionStorage.setItem('station',station);
+                        sessionStorage.setItem('velo',velo);
+                        localStorage.setItem('prenom',prenom);
+                        localStorage.setItem('nom',nom);
+
+                        var stationResa = sessionStorage.getItem('station');
+                        var veloRestant = sessionStorage.getItem('velo');
+                        var prenomResa = localStorage.getItem('prenom');
+                        var nomResa = localStorage.getItem('nom');
+
+                        
+                        document.getElementById('formulaire').removeChild(reserverElt);
+                        document.getElementById('resa').removeChild(canvaElt);
+                        
+                        document.getElementById('resa').appendChild(annulerElt); 
+                
+                        var recapElt = document.createElement('p');
+                        recapElt.id="recap";
+                        recapElt.textContent += " Vélo réservé à la station " + stationResa + " par " + prenom + " " + nom ; 
+                        document.getElementById('timer').appendChild(recapElt);
+                        
+
+                        //decompte 
+                        
+                        
+                        
+                        //affiche le texte 
+                        var tempsRestant = document.createElement('p');
+                        tempsRestant.id="timeLeft";
+                        tempsRestant.textContent = "Temps restant: " ;
+                        document.getElementById('timer').appendChild(tempsRestant);
+                        
+                        var compteurElt = document.createElement('p');
+                        compteurElt.id = "compteur";
+                        document.getElementById('timer').appendChild(compteurElt);
+                        
+                        
+                        var d = new Date();
+                        //timestamp en millisecondes t1 stocké
+                        var timestamp = d.getTime();
+                        sessionStorage.setItem('time',timestamp);
+                        
+                        var difference = 0;
+                        // Diminue le compteur jusqu'à 0
+                        function diminuerCompteur() {
+                            //recup premiere date
+                            var resaTimestamp = sessionStorage.getItem('time');
+                            //cree date de comparaison timestamp qui se renouvelle a chaque seconde
+                            var e = new Date();
+                            var f= e.getTime();
+                            
+                            // part de 0 puis augmente. millisecondes de difference par seconde.
+                            difference = f - resaTimestamp;
+
+                            compteurElt.innerHTML = difference;
+                            if (difference >= 10000) {
+                                 document.getElementById('timer').innerHTML = "réservation expirée";
+                                 velo = velo+1;
+                                 window.sessionStorage.clear();
+                                 document.getElementById('resa').removeChild(annulerElt);                
+                                document.getElementById('formulaire').appendChild(reserverElt);
+                                document.getElementById('resa').appendChild(canvaElt);
+    
+                            }
+                        }
+                        
+                        var myVar = setInterval(diminuerCompteur,1000);
+
+
+                        
+                        
+                        //actualise nb de velo a corriger
+                         //document.getElementById('velos').textContent = "vélos dispos: " + velo;
+                        
+                        $('#annuler').on('click',function(){
+                            velo = velo+1;
+                            window.sessionStorage.clear();
+                                
+
+                            document.getElementById('resa').removeChild(annulerElt); 
+                            
+                            document.getElementById('formulaire').appendChild(reserverElt);
+                        document.getElementById('resa').appendChild(canvaElt);
+                            
+                            document.getElementById('timer').textContent = "Reservation annulée";
+                             document.getElementById('velos').textContent = "vélos dispos: " + velo;
+                            
+                        });
+                        
+                    }
+            
+                
+                });
+
+                
             });
-                    
-                    
-                } else {
-                    
-                    e.preventDefault();
-                    console.log('else marche');
-                    velo= velo-1;
-                    //affiche le canva
-                    var canvaElt = document.createElement("canva");
-                    document.getElementById('status').appendChild(canvaElt);
-
-                    //stocke dans le storage
-                    sessionStorage.setItem('station',station);
-                    sessionStorage.setItem('velo',velo);
-                    localStorage.setItem('prenom',prenom);
-                    localStorage.setItem('nom',nom);
-
-                    var stationResa = sessionStorage.getItem('station');
-                    var veloRestant = sessionStorage.getItem('velo');
-                    var prenomResa = localStorage.getItem('prenom');
-                    var nomResa = localStorage.getItem('nom');
-
-                
-                    var recapElt = document.createElement('p');
-                    recapElt.id="recap";
-                    recapElt.textContent += " Vélo réservé à la station " + stationResa + " par " + prenom + " " + nom ; 
-                
-                    var tempsRestant = document.createElement('p');
-                    tempsRestant.textContent = "Temps restant: ";
-                    document.getElementById('timer').appendChild(recapElt);
-                    document.getElementById('timer').appendChild(tempsRestant);
-                    
-                      document.getElementById('velos').textContent = "velos dispos: " + velo;
-                }
-                
-            });
-
+            
         }); 
             
              
