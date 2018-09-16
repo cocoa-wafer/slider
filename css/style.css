@@ -22,6 +22,7 @@ ul {
 
 body {
     margin:0;
+        font-family: arial;
 }
 
 #conteneur {
@@ -83,3 +84,21 @@ body {
     background-color:red;
     border:1px solid green;
 }
+
+#timer {
+    background-color: lightgrey;
+    display: inline-block;
+    padding: 20px;
+    margin-top: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+#compteur {
+    font-weight: bold;
+    color: red;
+}
+
+
+    

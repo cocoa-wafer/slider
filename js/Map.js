@@ -159,9 +159,9 @@ var Map = {
                         tempsRestant.textContent = "Temps restant: " ;
                         document.getElementById('timer').appendChild(tempsRestant);
                         
-                        var compteurElt = document.createElement('p');
+                        var compteurElt = document.createElement('span');
                         compteurElt.id = "compteur";
-                        document.getElementById('timer').appendChild(compteurElt);
+                        document.getElementById('timeLeft').appendChild(compteurElt);
                         
                         
                         var d = new Date();
@@ -195,14 +195,14 @@ var Map = {
                                                 min = "0" + min;
                                             }
                                         }
-                                         compteurElt.innerHTML = min + ":" + sec ;
+                                         compteurElt.innerHTML = min + ":" + sec + " minutes." ;
                                     } else {
                                         
                                         sec--;
                                         if (sec < 10) { 
                                             sec = "0" + sec;
                                         }
-                                         compteurElt.innerHTML = min + ":" + sec ;
+                                         compteurElt.innerHTML = min + ":" + sec + " minutes" ;
                                     } 
 
                             
