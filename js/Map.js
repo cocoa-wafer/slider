@@ -20,12 +20,11 @@ var Map = {
                 icon:"",
                 map:map
             });
-
+             
              //event specialise pour chaque marker
         marker.addListener('click', function() {
             var velo = this.velodispo;
             var station = this.title;
-            
             document.getElementById('status').innerHTML = " ";
             document.getElementById('resa').innerHTML = " ";
             
@@ -54,6 +53,7 @@ var Map = {
             prenomInput.id="prenom";
             prenomElt.textContent = "Prénom: " ; 
             prenomElt.appendChild(prenomInput);
+            
             var nomElt = document.createElement('p');
             var nomInput = document.createElement('input');
             nomInput.id="nom";
@@ -70,10 +70,23 @@ var Map = {
             
             document.getElementById('resa').appendChild(formElt);
             
+            if (localStorage.getItem('prenom')) {
+                document.getElementById('prenom').value = prenom;
+            };
+            if (localStorage.getItem('nom')) {
+                document.getElementById('nom').value=nom;
+            };
+            
             
             //affiche canva plus confirmation
             $('#signer').on('click',function(e) {
                 e.preventDefault();
+                
+                if (velo >0) {
+                    
+ 
+                
+                
                 var canvaElt = document.createElement("canvas");
                 canvaElt.id="canva";
                 document.getElementById('resa').appendChild(canvaElt);
@@ -118,17 +131,22 @@ var Map = {
                     //ajouter condition de formulaire rempli plus canva rempli
                     e.preventDefault();
                     document.getElementById('timer').textContent="";
-                    var prenom = $('#prenom').val();
-                    var nom = $('#nom').val();
+                    
+                    //stocke dans le storage
+                    prenom = $('#prenom').val();
+                    nom = $('#nom').val();
+                    localStorage.setItem('prenom',prenom);
+                    localStorage.setItem('nom',nom);
                     var annulerElt = document.createElement('button');
                         var attentionElt = document.createElement('p');
                         attentionElt.textContent ="station deja reservee en attente";
                         annulerElt.id="annuler";
                         attentionElt.id="attention";
                         annulerElt.textContent="annuler la reservation";
-                
+                //si les elements sont rassembles 
+                    
                     if (sessionStorage.getItem('station')) {
-                        
+
                         document.getElementById('formulaire').removeChild(reserverElt);
                         document.getElementById('resa').removeChild(canvaElt);
                         
@@ -162,8 +180,6 @@ var Map = {
                         //stocke dans le storage
                         sessionStorage.setItem('station',station);
                         sessionStorage.setItem('velo',velo);
-                        localStorage.setItem('prenom',prenom);
-                        localStorage.setItem('nom',nom);
 
                         var stationResa = sessionStorage.getItem('station');
                         var veloRestant = sessionStorage.getItem('velo');
@@ -262,7 +278,6 @@ var Map = {
                              sessionStorage.removeItem('station');
                         sessionStorage.removeItem('velo');
                                 
-
                             document.getElementById('resa').removeChild(annulerElt); 
                             
                             document.getElementById('formulaire').appendChild(reserverElt);
@@ -279,6 +294,12 @@ var Map = {
                 
                 });
 
+             
+                    } else {
+                        document.getElementById('velos').style.fontWeight = "bold";
+                        document.getElementById('velos').style.color = "red";
+                    };
+                
                 
             });
             
