@@ -83,8 +83,35 @@ var Map = {
                 reserverElt.value = " réserver";
                 document.getElementById('formulaire').removeChild(signerElt);
                 document.getElementById('formulaire').appendChild(reserverElt);
+
+
+
+   
+                  //canva   
+                var el = document.getElementById('canva');
+                var ctx = el.getContext('2d');
+                var isDrawing;
+                                    
+          
+                
+                $('#canva').on('mousedown',function(e){
+                        isDrawing = true;
+                        ctx.moveTo(e.clientX, e.clientY);
+                });
+                
+                $('#canva').on('mousemove',function(e){
+                        if (isDrawing) {
+                        ctx.lineTo(e.clientX, e.clientY);
+                        ctx.stroke();
+                    }
+                });
+                
+                $('#canva').on('mouseup',function(){
+                     isDrawing = false;
+                });
                 
                 
+
                 
                 //reservation
                 $('#reserver').on('click',function(e){
@@ -114,8 +141,9 @@ var Map = {
                     
                     
                         $('#annuler').on('click',function(){
-                            window.sessionStorage.clear();
-                                
+                            sessionStorage.removeItem('station');
+                        sessionStorage.removeItem('velo');
+     
                            document.getElementById('resa').removeChild(attentionElt);
                             document.getElementById('resa').removeChild(annulerElt); 
                             
@@ -216,7 +244,8 @@ var Map = {
                             if (difference >= 1200000) {
                                  document.getElementById('timer').innerHTML = "réservation expirée";
                                 
-                                 window.sessionStorage.clear();
+                                  sessionStorage.removeItem('station');
+                        sessionStorage.removeItem('velo');
                                  document.getElementById('resa').removeChild(annulerElt);                
                                 document.getElementById('formulaire').appendChild(reserverElt);
                                 document.getElementById('resa').appendChild(canvaElt);
@@ -230,7 +259,8 @@ var Map = {
                         $('#annuler').on('click',function(){
                             velo = velo+1;
                             document.getElementById('velos').textContent = "velos dispos: " + velo;
-                            window.sessionStorage.clear();
+                             sessionStorage.removeItem('station');
+                        sessionStorage.removeItem('velo');
                                 
 
                             document.getElementById('resa').removeChild(annulerElt); 
