@@ -2,6 +2,8 @@ var Map = {
     
     map: "", 
     markers: [],
+    velo: "",
+    station: "",
 
     
     setMarker: function() {
@@ -23,8 +25,9 @@ var Map = {
              
              //event specialise pour chaque marker
         marker.addListener('click', function() {
-            var velo = this.velodispo;
-            var station = this.title;
+            Map.station = this.title;
+            Map.velo = this.velodispo;
+            
             document.getElementById('status').innerHTML = " ";
             document.getElementById('resa').innerHTML = " ";
             
@@ -44,58 +47,26 @@ var Map = {
             document.getElementById('status').appendChild(adresseElt);
             document.getElementById('status').appendChild(placeElt);
             document.getElementById('status').appendChild(veloElt); 
-            //affiche le form
-            var formElt = document.createElement('form');
-            formElt.id="formulaire";
-            var prenomElt = document.createElement('p');
-            var prenomInput = document.createElement('input');
-            prenomInput.id="prenom";
-            prenomElt.textContent = "Prénom: " ; 
-            prenomElt.appendChild(prenomInput);
             
-            var nomElt = document.createElement('p');
-            var nomInput = document.createElement('input');
-            nomInput.id="nom";
-            nomElt.textContent = "Nom: ";
-            nomElt.appendChild(nomInput);
-            var signerElt = document.createElement('input');
-            signerElt.id="signer";
-            signerElt.type="button";
-            signerElt.value="signer";
-            
-            formElt.appendChild(prenomElt);
-            formElt.appendChild(nomElt);
-            formElt.appendChild(signerElt);
-            
-            document.getElementById('resa').appendChild(formElt);
-            
-            //local sotrage nom prenom 
-            if (localStorage.getItem('prenom')) {
-                document.getElementById('prenom').value = prenom;
-            };
-            if (localStorage.getItem('nom')) {
-                document.getElementById('nom').value=nom;
-            };
-            
-            
-            //affiche canva plus confirmation
-            $('#signer').on('click',function(e) {
-                e.preventDefault();
-                
-                if (velo >0) {
-                    
 
-                    Map.signature();
+                //affiche form plus signature si velo dispos
+                if (this.velodispo >0) {
+                    
+                    // affiche le bouton signer et le formulaire
+                    Canva.signature();
+
+                       
+
+                    
+                    
+                   // Map.reserver();
              
-                    } else {
+                    } else if (this.velodispo === 0) {
                         document.getElementById('velos').style.fontWeight = "bold";
                         document.getElementById('velos').style.color = "red";
                         
                     };
-                
-                
-            });
-            
+
         }); 
             
              
@@ -132,12 +103,6 @@ var Map = {
 
        var markerCluster = new MarkerClusterer(map, this.markers, options);
 
-    },
-    
-
-    
-    reserver: function() {
-        
     },
 
     

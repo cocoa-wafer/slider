@@ -1,17 +1,73 @@
-    signature: function() {
-                
-                var canvaElt = document.createElement("canvas");
+var Canva = {
+    
+    
+signature: function() {
+    
+                //affiche le form
+            
+            var formElt = document.createElement('form');
+            formElt.id="formulaire";
+            var prenomElt = document.createElement('p');
+            var prenomInput = document.createElement('input');
+            prenomInput.id="prenom";
+            prenomElt.textContent = "Prénom: " ; 
+            prenomElt.appendChild(prenomInput);
+            
+            var nomElt = document.createElement('p');
+            var nomInput = document.createElement('input');
+            nomInput.id="nom";
+            nomElt.textContent = "Nom: ";
+            nomElt.appendChild(nomInput);
+            var signerElt = document.createElement('input');
+            signerElt.id="signer";
+            signerElt.type="button";
+            signerElt.value="signer";
+            
+            formElt.appendChild(prenomElt);
+            formElt.appendChild(nomElt);
+            formElt.appendChild(signerElt);
+            
+            document.getElementById('resa').appendChild(formElt);
+            
+    
+    
+                //declare le canva
+            var canvaElt = document.createElement("canvas");
                 canvaElt.id="canva";
-                document.getElementById('resa').appendChild(canvaElt);
                 var reserverElt = document.createElement('input');
                 reserverElt.id="reserver";
                 reserverElt.type="submit";
                 reserverElt.value = " réserver";
-              //  document.getElementById('formulaire').removeChild(signerElt);
+    
+                
+                //recup infos station et velo
+                var velo = Map.velo;
+                var station = Map.station;
+    
+    
+               
+    
+            //local sotrage nom prenom 
+          /* if (localStorage.getItem('prenom')) {
+                document.getElementById('prenom').value = prenom;
+            };
+            if (localStorage.getItem('nom')) {
+                document.getElementById('nom').value=nom;
+            };   */ 
+
+    
+            $('#signer').on('click',function(e) {
+                e.preventDefault();
+                
+    
+                //affiche canva plus bton reserver et sup bton signer
+
+                document.getElementById('resa').appendChild(canvaElt);
+                document.getElementById('formulaire').removeChild(signerElt);
                 document.getElementById('formulaire').appendChild(reserverElt);
 
                   //canva   
-                var el = document.getElementById('canva');
+               /* var el = document.getElementById('canva');
                 var ctx = el.getContext('2d');
                 var isDrawing;
     
@@ -29,41 +85,11 @@
                 
                 $('#canva').on('mouseup',function(){
                      isDrawing = false;
-                });
+                }); */
+                    
 
-    },                
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                //reservation
-                $('#reserver').on('click',function(e){
+    
+               $('#reserver').on('click',function(e){
                     //ajouter condition de formulaire rempli plus canva rempli
                     e.preventDefault();
                     document.getElementById('timer').textContent="";
@@ -73,12 +99,15 @@
                     nom = $('#nom').val();
                     localStorage.setItem('prenom',prenom);
                     localStorage.setItem('nom',nom);
-                    var annulerElt = document.createElement('button');
+                   
+                     var annulerElt = document.createElement('button');
                         var attentionElt = document.createElement('p');
                         attentionElt.textContent ="station déjà réservée en attente";
                         annulerElt.id="annuler";
                         attentionElt.id="attention";
                         annulerElt.textContent="annuler la reservation";
+                   
+                   
                 //si les elements sont rassembles 
                     
                     if (sessionStorage.getItem('station')) {
@@ -229,5 +258,13 @@
                     }
             
                 
-                });
-        
+                }); 
+                
+                
+                
+            });
+
+
+    }
+    
+};
