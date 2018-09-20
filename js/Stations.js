@@ -32,7 +32,7 @@ var Stations = {
                 reponses.forEach(function(reponse){
                     Stations.latitude.push(reponse.position.lat);
                     Stations.longitude.push(reponse.position.lng);
-                    Stations.adresse.push(reponse.name);
+                    Stations.adresse.push(reponse.address);
                     Stations.status.push(reponse.status);
                     Stations.veloDispo.push(reponse.available_bikes);
                     Stations.placeDispo.push(reponse.available_bike_stands);

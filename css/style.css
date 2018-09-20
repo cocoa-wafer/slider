@@ -5,7 +5,7 @@ body {
 
 #carrousel{
     position:relative;
-    height:720px;
+    height:730px;
     width:100%;
     margin:0;
     overflow:hidden;
@@ -15,7 +15,7 @@ body {
     z-index:1;
     top:0;
     left:0;
-    height:720px;
+    height:100%;
     width:100%;
 }
 
@@ -81,6 +81,7 @@ ul {
 #canva {
     border:1px solid green;
     max-width:90%;
+    margin: 10px 0;
 }
 
 #timer {
@@ -88,7 +89,7 @@ ul {
     display: inline-block;
     padding: 20px;
     margin-top: 10px;
-    border-radius: 10px;
+    border-radius: 20px;
     margin-bottom: 10px;
     margin-left: 10px;
 }
@@ -102,6 +103,19 @@ ul {
     max-width:90%;
 }
 
+
+#reserver , #signer , #annuler {
+    padding:6px 0 6px 0;
+	font:bold 13px Arial;
+	background:#f5f5f5;
+	color:#555;
+	border-radius:2px;
+	width:100px;
+	border:1px solid #ccc;
+	box-shadow:1px 1px 3px #999;
+}
+
+
 @media (min-width: 768px) and (max-width: 991px) {
     #map {
         width:60%;
@@ -109,6 +123,10 @@ ul {
     
     #clic {
        width:40%; 
+    }
+    
+    #carrousel {
+        height:520px;
     }
 }
 
@@ -128,6 +146,10 @@ ul {
         width:100%;
         height:auto;
     }
+    
+    #carrousel {
+        height:320px
+    }
 }
 
 @media (max-width: 449px) {
@@ -143,6 +165,10 @@ ul {
     #clic {
         width:100%;
         height:auto;
+    }
+    
+    #carrousel {
+        height:200px;
     }
     
     
