@@ -104,33 +104,6 @@ signature: function() {
     
     //effacer
             //declare le canva
-            var canvaElt = document.createElement("canvas");
-                canvaElt.id="canva";
-                var reserverElt = document.createElement('input');
-                reserverElt.id="reserver";
-                reserverElt.type="submit";
-                reserverElt.value = " réserver";
-
-                      //canva   
-               /* var el = document.getElementById('canva');
-                var ctx = el.getContext('2d');
-                var isDrawing;
-    
-                $('#canva').on('mousedown',function(e){
-                        isDrawing = true;
-                        ctx.moveTo(e.clientX, e.clientY);
-                });
-                
-                $('#canva').on('mousemove',function(e){
-                        if (isDrawing) {
-                        ctx.lineTo(e.clientX, e.clientY);
-                        ctx.stroke();
-                    }
-                });
-                
-                $('#canva').on('mouseup',function(){
-                     isDrawing = false;
-                }); */
     
                 
                 //recup infos station et velo
@@ -155,22 +128,65 @@ signature: function() {
     
             $('#signer').on('click',function(e) {
                 e.preventDefault();
-                
-            //affiche fonction reserver
-                //affiche canva plus bton reserver et sup bton signer
-
-                document.getElementById('resa').appendChild(canvaElt);
+                var canvaElt = document.createElement("canvas");
+                canvaElt.id="canva";
+                var reserverElt = document.createElement('input');
+                reserverElt.id="reserver";
+                reserverElt.type="submit";
+                reserverElt.value = " réserver";
+                 document.getElementById('resa').appendChild(canvaElt);
                 document.getElementById('formulaire').removeChild(signerElt);
 
                 document.getElementById('formulaire').appendChild(reserverElt);
+        
 
+                //canva   
+               var el = document.getElementById('canva');
+                el.width  = $(window).width();
+                el.height=1000;
+                var ctx = el.getContext('2d');
+                var isDrawing;
+                ctx.lineWidth = 10 ;
+    
+                $('#canva').on('mousedown',function(e){
+                        isDrawing = true;
+                        ctx.moveTo(e.clientX, e.clientY);
+
+               });
+                
+                $('#canva').on('mousemove',function(e){
+                        if (isDrawing) {
+                        ctx.lineTo(e.clientX, e.clientY);
+                        ctx.stroke();
+                    }
+                });
+                
+                $('#canva').on('mouseup',function(){
+                     isDrawing = false;
+                }); 
+                
+
+               function clearArea() {
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            }
+                
+                var effacerElt = document.createElement('button');
+                effacerElt.textContent = "effacer";
+                effacerElt.id="effacer";
+                document.getElementById('resa').appendChild(effacerElt);
+                $('#effacer').on('click',function(e){
+                    e.preventDefault();
+                    clearArea(); 
+                }); 
+                
 
                     
 
     
                $('#reserver').on('click',function(e){
-                    //ajouter condition de formulaire rempli plus canva rempli
                     e.preventDefault();
+                   document.getElementById('resa').removeChild(effacerElt);
                  //   document.getElementById('timer').textContent="";
                     //stocke dans le storage
                     prenom = $('#prenom').val();
@@ -215,6 +231,7 @@ signature: function() {
                                 
                             document.getElementById('resa').removeChild(annulerElt); 
                             document.getElementById('resa').removeChild(attentionElt);
+                            document.getElementById('resa').appendChild(effacerElt);
               
                             document.getElementById('formulaire').appendChild(reserverElt);
                         document.getElementById('resa').appendChild(canvaElt);
@@ -262,6 +279,7 @@ signature: function() {
               
                             document.getElementById('formulaire').appendChild(reserverElt);
                         document.getElementById('resa').appendChild(canvaElt);
+                        document.getElementById('resa').appendChild(effacerElt);
                             
                             document.getElementById('timer').textContent = "Reservation annulée";
 

@@ -78,11 +78,13 @@ ul {
     border-bottom-right-radius:50px;
 }
 
-#canva {
+ #canva {
     border:1px solid green;
-    max-width:90%;
-    margin: 10px 0;
-}
+   max-width:90%;
+
+     height:200px;
+    margin: 10px 0; 
+} 
 
 #timer {
     background-color: lightgrey;
@@ -104,7 +106,7 @@ ul {
 }
 
 
-#reserver , #signer , #annuler {
+#reserver , #signer , #annuler, #effacer {
     padding:6px 0 6px 0;
 	font:bold 13px Arial;
 	background:#f5f5f5;
