@@ -1,7 +1,8 @@
 var Canva = {
+    myVar : "",
     timer:function() {
         
-                    var recapElt = document.createElement('p');
+                        var recapElt = document.createElement('p');
                         recapElt.id="recap";
                         recapElt.textContent += " Vélo réservé à la station " + localStorage.getItem('station') + " par " + localStorage.getItem('prenom') + " " + localStorage.getItem('nom') ; 
                         document.getElementById('timer').appendChild(recapElt);
@@ -9,76 +10,68 @@ var Canva = {
                         //affiche le texte 
                         var tempsRestant = document.createElement('p');
                         tempsRestant.id="timeLeft";
-                        tempsRestant.textContent = "Temps restant: " ;
+                        tempsRestant.textContent = "Temps écoulé: " ;
                         document.getElementById('timer').appendChild(tempsRestant);
                         
                         var compteurElt = document.createElement('span');
                         compteurElt.id = "compteur";
                         document.getElementById('timeLeft').appendChild(compteurElt);
-                        
-                        
-                        var d = new Date();
-                        //timestamp en millisecondes t1 stocké
-                        var timestamp = d.getTime();
-                        localStorage.setItem('time',timestamp);
-                        
-                       
-                        
-                            var min = 20 ;
-                            var sec = "0"+0 ;
-                            var time = min + " : " + sec;
                   
                         // Diminue le compteur jusqu'à 0
-                        function diminuerCompteur() {
-                            //recup premiere date
-                            var resaTimestamp = localStorage.getItem('time');
-                            //cree date de comparaison timestamp qui se renouvelle a chaque seconde
-                            var e = new Date();
-                            var f= e.getTime();
-                            
-                            // part de 0 puis augmente. millisecondes de difference par seconde.
-                             var difference = 0;
-                            difference = f - resaTimestamp;
-
-                                    if (sec == 0) {
-                                        
-                                        if (min != 0) {
-                                            min--;
-                                            sec = 59;
-                                            if (min < 10) {
-                                                min = "0" + min;
-                                            }
-                                        }
-                                         compteurElt.innerHTML = min + ":" + sec + " minutes." ;
-                                    } else {
-                                        
-                                        sec--;
-                                        if (sec < 10) { 
-                                            sec = "0" + sec;
-                                        }
-                                         compteurElt.innerHTML = min + ":" + sec + " minutes" ;
-                                    } 
-
+                      function diminuerCompteur() {
+                         
+                        var e = new Date();
+                        var resaTimestamp = localStorage.getItem('time');
+                        var f= e.getTime();
+                           
+                           
+                        // difference en ms entre resa et maintenant
+                        var difference = f - resaTimestamp;
+                            //un temps en millisecondes
+                        var t = (difference);
+                          //secondes
+                        var s = Math.floor(t / 1000) % 60;
+                        //minutes
+                        var m = Math.floor(t / 60000) % 60;
+                        //affichage
+                        var chaine = m+":"+s+ "minutes";
+                        compteurElt.innerHTML = chaine;
                             
                             
-                            
-                            if (difference >= 1200000) {
-                                 document.getElementById('timer').innerHTML = "réservation expirée";
-                                
-                                  localStorage.removeItem('station');
+                          if (difference >= 1200000) {
+                                document.getElementById('timer').innerHTML = "réservation expirée";
+                                Canva.Stop();
+                                localStorage.removeItem('station');
                                 localStorage.removeItem('velo');
-                                 document.getElementById('resa').removeChild(annulerElt);                
-                                document.getElementById('formulaire').appendChild(reserverElt);
-                                document.getElementById('resa').appendChild(canvaElt);
+                                localStorage.removeItem('time');
+                                localStorage.removeItem('difference');
+                                
+
+                              
+                            // $('#annuler').hide();
+                                //document.getElementById('formulaire').appendChild(reserverElt);
+                            //  document.getElementById('resa').appendChild(canvaElt); 
+                                
+                            
     
-                            }
+                            } 
+                            
+                          localStorage.setItem('difference',difference);
                         }
                         
-                        var myVar = setInterval(diminuerCompteur,1000);
+                Canva.myVar = setInterval(diminuerCompteur,1000); 
+
 
 
 
     },
+    
+Stop: function() {
+      clearInterval(Canva.myVar);  
+    },
+    
+
+
     
 signature: function() {
     
@@ -109,7 +102,7 @@ signature: function() {
             document.getElementById('resa').appendChild(formElt);
             
     
-    
+    //effacer
             //declare le canva
             var canvaElt = document.createElement("canvas");
                 canvaElt.id="canva";
@@ -117,6 +110,7 @@ signature: function() {
                 reserverElt.id="reserver";
                 reserverElt.type="submit";
                 reserverElt.value = " réserver";
+
                       //canva   
                /* var el = document.getElementById('canva');
                 var ctx = el.getContext('2d');
@@ -152,24 +146,22 @@ signature: function() {
                 document.getElementById('prenom').value = localStorage.getItem('prenom');
                 document.getElementById('nom').value= localStorage.getItem('nom');
                 
-                 var recapElt = document.createElement('p');
-                        recapElt.id="recap";
-                        recapElt.textContent += " Vélo réservé à la station " + localStorage.getItem('station') + " par " + localStorage.getItem('prenom') + " " + localStorage.getItem('nom') ; 
-                        document.getElementById('timer').appendChild(recapElt);
                 
                 
             }; 
+    
 
 
     
             $('#signer').on('click',function(e) {
                 e.preventDefault();
                 
-    
+            //affiche fonction reserver
                 //affiche canva plus bton reserver et sup bton signer
 
                 document.getElementById('resa').appendChild(canvaElt);
                 document.getElementById('formulaire').removeChild(signerElt);
+
                 document.getElementById('formulaire').appendChild(reserverElt);
 
 
@@ -179,27 +171,28 @@ signature: function() {
                $('#reserver').on('click',function(e){
                     //ajouter condition de formulaire rempli plus canva rempli
                     e.preventDefault();
-                    document.getElementById('timer').textContent="";
-                    
+                 //   document.getElementById('timer').textContent="";
                     //stocke dans le storage
                     prenom = $('#prenom').val();
                     nom = $('#nom').val();
                     localStorage.setItem('prenom',prenom);
                     localStorage.setItem('nom',nom);
                     
-                   
+                   //effacer
                      var annulerElt = document.createElement('button');
                         var attentionElt = document.createElement('p');
                         attentionElt.textContent ="station déjà réservée en attente";
                         annulerElt.id="annuler";
                         attentionElt.id="attention";
                         annulerElt.textContent="annuler la reservation";
+
                    
                    
                 //si les elements sont rassembles 
                     
                     if (localStorage.getItem('station')) {
-
+   
+                        //affiche annuler plus mesqage deja reserve en plus 
                         document.getElementById('formulaire').removeChild(reserverElt);
                         document.getElementById('resa').removeChild(canvaElt);
                         
@@ -208,35 +201,46 @@ signature: function() {
                         document.getElementById('attention').style.color = "red";
                         
                         
-                        
-                         document.getElementById('timer').textContent = "Station déjà réservée en attente";
                     
                     
                         $('#annuler').on('click',function(){
-                            localStorage.removeItem('station');
-                        localStorage.removeItem('velo');
-     
-                           document.getElementById('resa').removeChild(attentionElt);
-                            document.getElementById('resa').removeChild(annulerElt); 
                             
+                            //affiche fonction reserver plus message annule plus un velo en plus
+                                       velo = velo+1;
+                            document.getElementById('velos').textContent = "velos dispos: " + velo;
+                            Canva.Stop();
+                            localStorage.removeItem('station');
+                            localStorage.removeItem('velo'); 
+                            localStorage.removeItem('time');
+                                
+                            document.getElementById('resa').removeChild(annulerElt); 
+                            document.getElementById('resa').removeChild(attentionElt);
+              
                             document.getElementById('formulaire').appendChild(reserverElt);
                         document.getElementById('resa').appendChild(canvaElt);
                             
                             document.getElementById('timer').textContent = "Reservation annulée";
 
+
                         });
                     
                     
                     } else {
+                        
+                        //affiche fonction annuler
+                        document.getElementById('timer').innerHTML="";
 
                         //stocke dans le storage
                         localStorage.setItem('velo',velo);
                         localStorage.setItem('station',station);
+                        var resa = new Date();
+                        var timestamp = resa.getTime();
+                        localStorage.setItem('time', timestamp);
 
                         velo= velo-1;
                         document.getElementById('velos').textContent = "velos disponibles: " + velo;
 
-                        
+              
                         document.getElementById('formulaire').removeChild(reserverElt);
                         document.getElementById('resa').removeChild(canvaElt);
                         
@@ -246,29 +250,31 @@ signature: function() {
                         Canva.timer();
 
                           $('#annuler').on('click',function(){
-                              
+                              //affiche fonction reserver
                             velo = velo+1;
                             document.getElementById('velos').textContent = "velos dispos: " + velo;
-                              
-                             localStorage.removeItem('station');
+                            Canva.Stop();
+                            localStorage.removeItem('station');
                             localStorage.removeItem('velo'); 
-                                
+                            localStorage.removeItem('time');
+ 
                             document.getElementById('resa').removeChild(annulerElt); 
-                            
+              
                             document.getElementById('formulaire').appendChild(reserverElt);
                         document.getElementById('resa').appendChild(canvaElt);
                             
                             document.getElementById('timer').textContent = "Reservation annulée";
-                             document.getElementById('velos').textContent = "vélos disponibles: " + velo;
+
                               
-                            //clearInterval(myVar);
+                           
                             
                         });
                     }
             
                 
+                   
+                   
                 }); 
-                
                 
                 
             });
