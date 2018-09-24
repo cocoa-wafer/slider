@@ -80,10 +80,7 @@ ul {
 
  #canva {
     border:1px solid green;
-   max-width:90%;
-
-     height:200px;
-    margin: 10px 0; 
+     max-width:90%;
 } 
 
 #timer {
