@@ -1,5 +1,83 @@
 var Canva = {
     myVar : "",
+    signerElt:"",
+    canva: function() { 
+                  
+             var el = document.getElementById('canva');
+
+                var ctx = el.getContext('2d');
+                ctx.width=200;
+                ctx.height=200;
+                var isDrawing;
+                ctx.lineWidth = 6 ;
+    
+                $('#canva').on('mousedown',function(e){
+                        isDrawing = true;
+                        ctx.moveTo(e.clientX, e.clientY);
+
+
+               });
+                
+                $('#canva').on('mousemove',function(e){
+                        if (isDrawing) {
+                        ctx.lineTo(e.clientX, e.clientY);
+                        ctx.stroke();
+                    }
+                });
+                
+                $('#canva').on('mouseup',function(){
+                     isDrawing = false;
+                }); 
+                
+
+               function clearArea() {
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            }
+                
+                
+                $('#effacer').on('click',function(e){
+                    e.preventDefault();
+                    clearArea(); 
+                }); 
+
+    },
+    initResa:function() {
+        
+        document.getElementById('current').innerHTML = "";
+         var canvaElt = document.createElement("canvas");
+            canvaElt.id="canva";
+            canvaElt.width = 200;
+            canvaElt.height = 200;
+        document.getElementById('current').appendChild(canvaElt);
+        
+        
+         var effacerElt = document.createElement('button');
+                effacerElt.textContent = "effacer";
+                effacerElt.id="effacer";
+                document.getElementById('current').appendChild(effacerElt);
+        Canva.canva();
+        var reserverElt = document.createElement('input');
+                reserverElt.id="reserver";
+                reserverElt.type="submit";
+                reserverElt.value = " réserver";
+        document.getElementById('current').appendChild(reserverElt);
+    },
+    
+    initAnnulation:function() {
+        
+        document.getElementById('current').innerHTML = "";
+        var annulerElt = document.createElement('button');
+                        annulerElt.id="annuler";
+                        annulerElt.textContent="annuler la reservation";
+        document.getElementById('current').appendChild(annulerElt);
+        
+    },
+    
+    formulaire:function() {
+        
+    },
+    
     timer:function() {
         
                         var recapElt = document.createElement('p');
@@ -36,30 +114,26 @@ var Canva = {
                         //affichage
                         var chaine = m+":"+s+ "minutes";
                         compteurElt.innerHTML = chaine;
+                          
                             
-                            
-                          if (difference >= 1200000) {
+                          if (difference >= 10000) {
                                 document.getElementById('timer').innerHTML = "réservation expirée";
                                 Canva.Stop();
                                 localStorage.removeItem('station');
                                 localStorage.removeItem('velo');
                                 localStorage.removeItem('time');
                                 localStorage.removeItem('difference');
-                                
-
+                                document.getElementById('current').innerHTML="";
                               
-                            // $('#annuler').hide();
-                                //document.getElementById('formulaire').appendChild(reserverElt);
-                            //  document.getElementById('resa').appendChild(canvaElt); 
-                                
-                            
+                                 document.getElementById('formulaire').appendChild(Canva.signerElt);
+
     
                             } 
                             
-                          localStorage.setItem('difference',difference);
+                           localStorage.setItem('difference',difference); 
                         }
                         
-                Canva.myVar = setInterval(diminuerCompteur,1000); 
+                Canva.myVar = setInterval(diminuerCompteur,1200000); 
 
 
 
@@ -90,163 +164,76 @@ signature: function() {
             nomInput.id="nom";
             nomElt.textContent = "Nom: ";
             nomElt.appendChild(nomInput);
-            var signerElt = document.createElement('input');
-            signerElt.id="signer";
-            signerElt.type="button";
-            signerElt.value="signer";
+            Canva.signerElt = document.createElement('input');
+            Canva.signerElt.id="signer";
+            Canva.signerElt.type="button";
+            Canva.signerElt.value="signer";
             
             formElt.appendChild(prenomElt);
             formElt.appendChild(nomElt);
-            formElt.appendChild(signerElt);
+            formElt.appendChild(Canva.signerElt);
             
             document.getElementById('resa').appendChild(formElt);
-            
-    
-    //effacer
-            //declare le canva
-    
-                
-                //recup infos station et velo
-                var velo = Map.velo;
-                var station = Map.station;
-    
-    
-               
-    
+
             //local sotrage nom prenom 
     
             if (localStorage.getItem('prenom')) {
                 document.getElementById('prenom').value = localStorage.getItem('prenom');
                 document.getElementById('nom').value= localStorage.getItem('nom');
-                
-                
-                
-            }; 
     
-
-
+            }; 
+    document.getElementById('current').innerHTML="";
     
             $('#signer').on('click',function(e) {
                 e.preventDefault();
-                var canvaElt = document.createElement("canvas");
-                canvaElt.id="canva";
-                var reserverElt = document.createElement('input');
-                reserverElt.id="reserver";
-                reserverElt.type="submit";
-                reserverElt.value = " réserver";
-                 document.getElementById('resa').appendChild(canvaElt);
-                document.getElementById('formulaire').removeChild(signerElt);
-
-                document.getElementById('formulaire').appendChild(reserverElt);
-        
-
-                //canva   
-               var el = document.getElementById('canva');
-                el.width  = $(window).width();
-                el.height=1000;
-                var ctx = el.getContext('2d');
-                var isDrawing;
-                ctx.lineWidth = 10 ;
-    
-                $('#canva').on('mousedown',function(e){
-                        isDrawing = true;
-                        ctx.moveTo(e.clientX, e.clientY);
-
-               });
-                
-                $('#canva').on('mousemove',function(e){
-                        if (isDrawing) {
-                        ctx.lineTo(e.clientX, e.clientY);
-                        ctx.stroke();
-                    }
-                });
-                
-                $('#canva').on('mouseup',function(){
-                     isDrawing = false;
-                }); 
+                document.getElementById('formulaire').removeChild(Canva.signerElt);
+                Canva.initResa();
                 
 
-               function clearArea() {
-                ctx.setTransform(1, 0, 0, 1, 0, 0);
-                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-            }
-                
-                var effacerElt = document.createElement('button');
-                effacerElt.textContent = "effacer";
-                effacerElt.id="effacer";
-                document.getElementById('resa').appendChild(effacerElt);
-                $('#effacer').on('click',function(e){
-                    e.preventDefault();
-                    clearArea(); 
-                }); 
-                
-
-                    
-
-    
                $('#reserver').on('click',function(e){
                     e.preventDefault();
-                   document.getElementById('resa').removeChild(effacerElt);
-                 //   document.getElementById('timer').textContent="";
                     //stocke dans le storage
                     prenom = $('#prenom').val();
                     nom = $('#nom').val();
                     localStorage.setItem('prenom',prenom);
                     localStorage.setItem('nom',nom);
-                    
-                   //effacer
-                     var annulerElt = document.createElement('button');
-                        var attentionElt = document.createElement('p');
-                        attentionElt.textContent ="station déjà réservée en attente";
-                        annulerElt.id="annuler";
-                        attentionElt.id="attention";
-                        annulerElt.textContent="annuler la reservation";
 
-                   
-                   
-                //si les elements sont rassembles 
-                    
                     if (localStorage.getItem('station')) {
    
                         //affiche annuler plus mesqage deja reserve en plus 
-                        document.getElementById('formulaire').removeChild(reserverElt);
-                        document.getElementById('resa').removeChild(canvaElt);
-                        
-                        document.getElementById('resa').appendChild(attentionElt);
-                        document.getElementById('resa').appendChild(annulerElt);
+                        Canva.initAnnulation();
+                        var attentionElt = document.createElement('p');
+                        attentionElt.textContent ="station déjà réservée en attente";
+                        attentionElt.id="attention";
+                        document.getElementById('current').appendChild(attentionElt);
                         document.getElementById('attention').style.color = "red";
                         
-                        
-                    
+
                     
                         $('#annuler').on('click',function(){
                             
                             //affiche fonction reserver plus message annule plus un velo en plus
-                                       velo = velo+1;
+                            velo = velo+1;
                             document.getElementById('velos').textContent = "velos dispos: " + velo;
                             Canva.Stop();
                             localStorage.removeItem('station');
                             localStorage.removeItem('velo'); 
                             localStorage.removeItem('time');
-                                
-                            document.getElementById('resa').removeChild(annulerElt); 
-                            document.getElementById('resa').removeChild(attentionElt);
-                            document.getElementById('resa').appendChild(effacerElt);
-              
-                            document.getElementById('formulaire').appendChild(reserverElt);
-                        document.getElementById('resa').appendChild(canvaElt);
-                            
+                            document.getElementById('current').removeChild(attentionElt);
                             document.getElementById('timer').textContent = "Reservation annulée";
-
+                            document.getElementById('formulaire').appendChild(Canva.signerElt);
+                            document.getElementById('current').innerHTML="";
 
                         });
                     
                     
                     } else {
-                        
+                                        //recup infos station et velo
+                            var velo = Map.velo;
+                            var station = Map.station;
                         //affiche fonction annuler
                         document.getElementById('timer').innerHTML="";
-
+                        Canva.initAnnulation();
                         //stocke dans le storage
                         localStorage.setItem('velo',velo);
                         localStorage.setItem('station',station);
@@ -256,30 +243,20 @@ signature: function() {
 
                         velo= velo-1;
                         document.getElementById('velos').textContent = "velos disponibles: " + velo;
-
-              
-                        document.getElementById('formulaire').removeChild(reserverElt);
-                        document.getElementById('resa').removeChild(canvaElt);
-                        
-                        document.getElementById('resa').appendChild(annulerElt); 
                 
                         
                         Canva.timer();
 
                           $('#annuler').on('click',function(){
                               //affiche fonction reserver
+                            document.getElementById('formulaire').appendChild(Canva.signerElt);
+                              document.getElementById('current').innerHTML="";
                             velo = velo+1;
                             document.getElementById('velos').textContent = "velos dispos: " + velo;
                             Canva.Stop();
                             localStorage.removeItem('station');
                             localStorage.removeItem('velo'); 
                             localStorage.removeItem('time');
- 
-                            document.getElementById('resa').removeChild(annulerElt); 
-              
-                            document.getElementById('formulaire').appendChild(reserverElt);
-                        document.getElementById('resa').appendChild(canvaElt);
-                        document.getElementById('resa').appendChild(effacerElt);
                             
                             document.getElementById('timer').textContent = "Reservation annulée";
 
