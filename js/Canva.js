@@ -23,6 +23,7 @@ var Canva = {
                         ctx.beginPath();
                         var mousePos = getMousePos(canvas, e);
                         ctx.moveTo(mousePos.x, mousePos.y);
+                        document.getElementById('canva').setAttribute('class','active');
 
                });
                 
@@ -44,6 +45,7 @@ var Canva = {
                function clearArea() {
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
                 ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                document.getElementById('canva').removeAttribute('class');
             }
                 
                 
@@ -65,17 +67,24 @@ var Canva = {
             canvaElt.height = 200;
         document.getElementById('current').appendChild(canvaElt);
         
+        var boutonsElt = document.createElement('div');
+        boutonsElt.id="boutons";
         
          var effacerElt = document.createElement('button');
                 effacerElt.textContent = "effacer";
                 effacerElt.id="effacer";
-                document.getElementById('current').appendChild(effacerElt);
-        Canva.canva();
+              //  document.getElementById('current').appendChild(effacerElt);
+        
         var reserverElt = document.createElement('input');
                 reserverElt.id="reserver";
                 reserverElt.type="submit";
                 reserverElt.value = " réserver";
-        document.getElementById('current').appendChild(reserverElt);
+       // document.getElementById('current').appendChild(reserverElt);
+              document.getElementById('current').appendChild(boutonsElt);
+        document.getElementById('boutons').appendChild(effacerElt);
+        document.getElementById('boutons').appendChild(reserverElt);
+  
+       Canva.canva(); 
     },
     
     initAnnulation:function() {
@@ -128,9 +137,9 @@ var Canva = {
                         //affichage
                         var chaine = m+":"+s+ "minutes";
                         compteurElt.innerHTML = chaine;
-                          
+                        localStorage.setItem('difference',difference);   
                             
-                          if (difference >= 10000) {
+                          if (difference >= 1200000) {
                                 document.getElementById('timer').innerHTML = "réservation expirée";
                                 Canva.Stop();
                                 localStorage.removeItem('station');
@@ -144,10 +153,10 @@ var Canva = {
     
                             } 
                             
-                           localStorage.setItem('difference',difference); 
+                          
                         }
                         
-                Canva.myVar = setInterval(diminuerCompteur,1200000); 
+                Canva.myVar = setInterval(diminuerCompteur,1000); 
 
 
 
@@ -212,6 +221,7 @@ signature: function() {
                     localStorage.setItem('prenom',prenom);
                     localStorage.setItem('nom',nom);
 
+
                     if (localStorage.getItem('station')) {
    
                         //affiche annuler plus mesqage deja reserve en plus 
@@ -228,10 +238,10 @@ signature: function() {
                             
                             //affiche fonction reserver plus message annule plus un velo en plus
                             velo = velo+1;
-                            document.getElementById('velos').textContent = "velos dispos: " + velo;
                             Canva.Stop();
                             localStorage.removeItem('station');
                             localStorage.removeItem('velo'); 
+                            localStorage.removeItem('difference'); 
                             localStorage.removeItem('time');
                             document.getElementById('current').removeChild(attentionElt);
                             document.getElementById('timer').textContent = "Reservation annulée";
@@ -242,7 +252,10 @@ signature: function() {
                     
                     
                     } else {
-                                        //recup infos station et velo
+                        
+                        if ($('#canva').hasClass('active')) {
+                            document.getElementById('erreur').innerHTML="";
+                             //recup infos station et velo
                             var velo = Map.velo;
                             var station = Map.station;
                         //affiche fonction annuler
@@ -270,6 +283,7 @@ signature: function() {
                             Canva.Stop();
                             localStorage.removeItem('station');
                             localStorage.removeItem('velo'); 
+                            localStorage.removeItem('difference'); 
                             localStorage.removeItem('time');
                             
                             document.getElementById('timer').textContent = "Reservation annulée";
@@ -278,6 +292,18 @@ signature: function() {
                            
                             
                         });
+                            
+                        } else {
+                           var erreurElt = document.createElement('p');
+
+                            erreurElt.textContent = "Vous devez signer"; 
+                            erreurElt.style.color = "red";
+                            document.getElementById('erreur').appendChild(erreurElt);
+                            
+                        }
+                           
+                        
+                        
                     }
             
                 
