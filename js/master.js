@@ -2,6 +2,6 @@
 Slider.init();
 Map.initMap();
 Stations.init();
-if(localStorage.getItem('station')) {
+if(localStorage.difference <1200000 ) {
     Canva.timer();
 }; 
