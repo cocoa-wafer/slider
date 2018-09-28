@@ -30,6 +30,7 @@ var Canva = {
                         if (isDrawing) {
                         var mousePos = getMousePos(canvas, e);
                         ctx.lineTo(mousePos.x, mousePos.y);
+
                         ctx.stroke();
                     }
                 });
@@ -37,8 +38,10 @@ var Canva = {
                 $('#canva').on('mouseup',function(){
                      isDrawing = false;
                 }); 
-        
-        function clearArea() {
+
+                
+
+               function clearArea() {
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
                 ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
             }
@@ -47,10 +50,11 @@ var Canva = {
                 $('#effacer').on('click',function(e){
                     e.preventDefault();
                     clearArea(); 
+
                 });
 
+
     },
-    
     
     initResa:function() {
         
