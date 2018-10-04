@@ -1,6 +1,22 @@
 var Canva = {
     myVar : "",
     signerElt:"",
+    
+    getMousePos:function(canvas, evt) {
+        var rect = canvas.getBoundingClientRect();
+        return {
+          x: evt.clientX - rect.left,
+          y: evt.clientY - rect.top
+        };
+    },
+    
+    clearArea:function(ctx,canvas) {
+        
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                document.getElementById('canva').removeAttribute('class');
+    },
+    
     canva: function() { 
 
   
@@ -8,20 +24,12 @@ var Canva = {
               var ctx = canvas.getContext('2d');
                 var isDrawing;
                 ctx.lineWidth = 4 ;
-        
-        function getMousePos(canvas, evt) {
-        var rect = canvas.getBoundingClientRect();
-        return {
-          x: evt.clientX - rect.left,
-          y: evt.clientY - rect.top
-        };
-      }
 
         
         $('#canva').on('mousedown',function(e){
                         isDrawing = true;
                         ctx.beginPath();
-                        var mousePos = getMousePos(canvas, e);
+                        var mousePos = Canva.getMousePos(canvas, e);
                         ctx.moveTo(mousePos.x, mousePos.y);
                         document.getElementById('canva').setAttribute('class','active');
 
@@ -29,7 +37,7 @@ var Canva = {
                 
                 $('#canva').on('mousemove',function(e){
                         if (isDrawing) {
-                        var mousePos = getMousePos(canvas, e);
+                        var mousePos = Canva.getMousePos(canvas, e);
                         ctx.lineTo(mousePos.x, mousePos.y);
 
                         ctx.stroke();
@@ -41,17 +49,10 @@ var Canva = {
                 }); 
 
                 
-
-               function clearArea() {
-                ctx.setTransform(1, 0, 0, 1, 0, 0);
-                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-                document.getElementById('canva').removeAttribute('class');
-            }
-                
                 
                 $('#effacer').on('click',function(e){
                     e.preventDefault();
-                    clearArea(); 
+                    Canva.clearArea(ctx,canvas); 
 
                 });
 
@@ -73,13 +74,11 @@ var Canva = {
          var effacerElt = document.createElement('button');
                 effacerElt.textContent = "effacer";
                 effacerElt.id="effacer";
-              //  document.getElementById('current').appendChild(effacerElt);
         
         var reserverElt = document.createElement('input');
                 reserverElt.id="reserver";
                 reserverElt.type="submit";
                 reserverElt.value = " réserver";
-       // document.getElementById('current').appendChild(reserverElt);
               document.getElementById('current').appendChild(boutonsElt);
         document.getElementById('boutons').appendChild(effacerElt);
         document.getElementById('boutons').appendChild(reserverElt);

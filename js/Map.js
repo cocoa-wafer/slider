@@ -3,6 +3,16 @@ var Map = {
     map: "", 
     markers: [],
     
+    markerClusterer : function(map, markers) {
+        //affiche icones markercluster
+        var options = {
+            imagePath:   'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' 
+        }; 
+
+        
+       var markerCluster = new MarkerClusterer(map, markers, options);
+    },
+    
     detailStation:function(marqueur) {
             
             document.getElementById('status').innerHTML = " ";
@@ -70,13 +80,8 @@ var Map = {
     
         }; 
         
-        //affiche icones markercluster
-        var options = {
-            imagePath:   'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' 
-        }; 
-
-        
-       var markerCluster = new MarkerClusterer(map, this.markers, options);
+        //ajoute les markers clusters
+        Map.markerClusterer(map,this.markers);
 
     },
     
