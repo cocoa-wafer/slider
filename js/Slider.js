@@ -1,4 +1,5 @@
-/* slider */    
+/* slider */  
+
 
     var Slider = {
         
@@ -67,24 +68,26 @@
         },
         
         init : function() {
-        
+            
+        var This = this;
+ 
     
             this.defiler();
             
             $('#next').on('click',function(){
-                Slider.avancer();
+                This.avancer();
             });
             
             $('#prev').on('click',function() {
-                Slider.reculer();
+                This.reculer();
             });
             
            $(document).on('keydown',function(e) {
                 if (e.keyCode ==39) {
-                    Slider.avancer();
+                    This.avancer();
                 }
                 else if (e.keyCode ==37) {
-                    Slider.reculer();
+                    This.reculer();
                 }
             });
         }

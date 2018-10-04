@@ -2,15 +2,49 @@ var Map = {
     
     map: "", 
     markers: [],
-    velo: "",
-    station: "",
+    
+    detailStation:function(marqueur) {
+            
+            document.getElementById('status').innerHTML = " ";
+            document.getElementById('resa').innerHTML = " ";
+            
+            // affiche le statut                  
+            var titreElt = document.createElement('h2');
+            titreElt.textContent = 'DETAILS DE LA STATION';
+            var adresseElt = document.createElement('p');
+            adresseElt.textContent = "Adresse: " + marqueur.title;
+            var placeElt = document.createElement('p');
+            placeElt.textContent= "Places disponibles: " + marqueur.placedispo;
+            var veloElt = document.createElement('p');
+            veloElt.id="velos"
+            veloElt.textContent = "Vélos disponibles: " + marqueur.velodispo;
+            
+            document.getElementById('status').appendChild(titreElt);
+            document.getElementById('status').appendChild(adresseElt);
+            document.getElementById('status').appendChild(placeElt);
+            document.getElementById('status').appendChild(veloElt); 
+        
+            //affiche form plus signature si velo dispos
+            if (marqueur.velodispo >0) {
+                    
+                // affiche le bouton signer et le formulaire
+                Canva.signature();
 
+             
+            } else if (marqueur.velodispo === 0) {
+                document.getElementById('velos').style.fontWeight = "bold";
+                document.getElementById('velos').style.color = "red";
+                        
+            };
+        
+    },
     
     setMarker: function() {
         
         
         //creation de la boucle avdec les infos de station
          for (var i =0 ; i < Stations.latitude.length; i++) {
+             
             var myLatlng = new google.maps.LatLng(Stations.latitude[i],Stations.longitude[i]);
              //creation des markers
             var marker = new google.maps.Marker({
@@ -23,86 +57,50 @@ var Map = {
                 map:map
             });
              
-             //event specialise pour chaque marker
+             //détails de la station
         marker.addListener('click', function() {
-            Map.station = this.title;
-            Map.velo = this.velodispo;
-            
-            document.getElementById('status').innerHTML = " ";
-            document.getElementById('resa').innerHTML = " ";
-            
-            // affiche le statut                  
-            
-            var titreElt = document.createElement('h2');
-            titreElt.textContent = 'DETAILS DE LA STATION';
-            var adresseElt = document.createElement('p');
-            adresseElt.textContent = "Adresse: " + this.title;
-            var placeElt = document.createElement('p');
-            placeElt.textContent= "Places disponibles: " + this.placedispo;
-            var veloElt = document.createElement('p');
-            veloElt.id="velos"
-            veloElt.textContent = "Vélos disponibles: " + this.velodispo;
-            
-            document.getElementById('status').appendChild(titreElt);
-            document.getElementById('status').appendChild(adresseElt);
-            document.getElementById('status').appendChild(placeElt);
-            document.getElementById('status').appendChild(veloElt); 
-            
-
-                //affiche form plus signature si velo dispos
-                if (this.velodispo >0) {
-                    
-                    // affiche le bouton signer et le formulaire
-                    Canva.signature();
-
-                       
-
-                    
-                    
-                   // Map.reserver();
-             
-                    } else if (this.velodispo === 0) {
-                        document.getElementById('velos').style.fontWeight = "bold";
-                        document.getElementById('velos').style.color = "red";
-                        
-                    };
-
+            Map.detailStation(this);
         }); 
             
+             // affiche les custom marker
+             marker.icon = Map.customMarker(marker);
              
-             
-            if (marker.status === "OPEN") {
-                if (marker.velodispo > 0) {
-                    if (marker.placedispo >0) {
-                      marker.icon = 'file:///C:/Users/phebi/Desktop/DWJ/projet3/images/velo.png';
+             //ajoute les markers au tableau
+            this.markers.push(marker);
+    
+        }; 
+        
+        //affiche icones markercluster
+        var options = {
+            imagePath:   'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' 
+        }; 
+
+        
+       var markerCluster = new MarkerClusterer(map, this.markers, options);
+
+    },
+    
+    customMarker:function(marqueur) {
+                    if (marqueur.status === "OPEN") {
+                if (marqueur.velodispo > 0) {
+                    if (marqueur.placedispo >0) {
+                      return 'file:///C:/Users/phebi/Desktop/DWJ/projet3/images/velo.png';
 
                     } else {
-                      marker.icon = 'file:///C:/Users/phebi/Desktop/DWJ/projet3/images/out.png';
+                      return 'file:///C:/Users/phebi/Desktop/DWJ/projet3/images/out.png';
 
                     }
 
                 } else {
-                   marker.icon ='file:///C:/Users/phebi/Desktop/DWJ/projet3/images/parking.png';
+                   return 'file:///C:/Users/phebi/Desktop/DWJ/projet3/images/parking.png';
 
                 } 
                 
             
-            } else  {
-              marker.icon = "file:///C:/Users/phebi/Desktop/DWJ/projet3/images/ferme.png";
+            } else {
+              return "file:///C:/Users/phebi/Desktop/DWJ/projet3/images/ferme.png";
 
-            }
-             
-            this.markers.push(marker);
-
-             
-        }; 
-        
-        var options = {
-            imagePath:   'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' 
-        };
-
-       var markerCluster = new MarkerClusterer(map, this.markers, options);
-
+            }  
     },
 
     
