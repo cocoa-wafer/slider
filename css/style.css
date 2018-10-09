@@ -113,6 +113,10 @@ ul {
 	box-shadow:1px 1px 3px #999;
 }
 
+#erreur {
+    color:red;
+    margin-top:10px;
+}
 
 @media (min-width: 768px) and (max-width: 991px) {
     #map {
