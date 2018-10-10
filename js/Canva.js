@@ -231,41 +231,9 @@ var Canva = {
                     
                     
             } else {
-                        
-                if ($('#canva').hasClass('active')) {
-                    if ((localStorage.getItem('prenom').length >=1) && (localStorage.getItem('nom').length>=1) ){
-                        
-                        document.getElementById('erreur').innerHTML="";
-                        Canva.velo = Map.velo;
-                        Canva.station = Map.station;
-                        document.getElementById('timer').innerHTML="";
-                        Canva.initAnnulation();
-                        localStorage.setItem('velo',Canva.velo);
-                        localStorage.setItem('station',Canva.station);
-                        var resa = new Date();
-                        var timestamp = resa.getTime();
-                        localStorage.setItem('time', timestamp);
-                        Canva.velo= Canva.velo-1;
-                        document.getElementById('velos').textContent = "velos disponibles: " + Canva.velo;    
-                        Canva.timer();
-
-                        $('#annuler').on('click',function(){
-                            Canva.annulResa();
-                            document.getElementById('velos').textContent = "velos disponibles: " + Canva.velo;
-                   
-                        });
-                        
-                    } else {
-                        
-                        document.getElementById('erreur').textContent = "Renseignez votre nom et prénom";
-                    }
-                            
-                } else {
-
-                    document.getElementById('erreur').textContent = "Vous devez signer";
-                            
-                }
-     
+                
+                Canva.confirmResa();
+                
             }
   
         });   
@@ -283,6 +251,45 @@ var Canva = {
         document.getElementById('formulaire').appendChild(Canva.signerElt);
         document.getElementById('current').innerHTML="";
 
+    },
+    
+    confirmResa:function() {
+        
+        if ($('#canva').hasClass('active')) {
+            if ((localStorage.getItem('prenom').length >=1) && (localStorage.getItem('nom').length>=1) ){
+                        
+                document.getElementById('erreur').innerHTML="";
+                Canva.velo = Map.velo;
+                Canva.station = Map.station;
+                document.getElementById('timer').innerHTML="";
+                Canva.initAnnulation();
+                localStorage.setItem('velo',Canva.velo);
+                localStorage.setItem('station',Canva.station);
+                var resa = new Date();
+                var timestamp = resa.getTime();
+                localStorage.setItem('time', timestamp);
+                Canva.velo= Canva.velo-1;
+                document.getElementById('velos').textContent = "velos disponibles: " + Canva.velo;    
+                Canva.timer();
+
+                $('#annuler').on('click',function(){
+                    Canva.annulResa();
+                    document.getElementById('velos').textContent = "velos disponibles: " + Canva.velo;
+                   
+                });
+                        
+            } else {
+                        
+                document.getElementById('erreur').textContent = "Renseignez votre nom et prénom";
+            }
+                            
+        } else {
+
+            document.getElementById('erreur').textContent = "Vous devez signer";
+                            
+        }
+        
+        
     }
     
 };
