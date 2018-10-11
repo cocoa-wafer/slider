@@ -259,18 +259,18 @@ var Canva = {
             if ((localStorage.getItem('prenom').length >=1) && (localStorage.getItem('nom').length>=1) ){
                         
                 document.getElementById('erreur').innerHTML="";
-                Canva.velo = Map.velo;
-                Canva.station = Map.station;
+                this.velo = Map.velo;
+                this.station = Map.station;
                 document.getElementById('timer').innerHTML="";
-                Canva.initAnnulation();
-                localStorage.setItem('velo',Canva.velo);
-                localStorage.setItem('station',Canva.station);
+                this.initAnnulation();
+                localStorage.setItem('velo',this.velo);
+                localStorage.setItem('station',this.station);
                 var resa = new Date();
                 var timestamp = resa.getTime();
                 localStorage.setItem('time', timestamp);
-                Canva.velo= Canva.velo-1;
-                document.getElementById('velos').textContent = "velos disponibles: " + Canva.velo;    
-                Canva.timer();
+                this.velo= this.velo-1;
+                document.getElementById('velos').textContent = "velos disponibles: " + this.velo;    
+                this.timer();
 
                 $('#annuler').on('click',function(){
                     Canva.annulResa();
