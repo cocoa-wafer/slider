@@ -81,7 +81,7 @@ var Canva = {
         document.getElementById('boutons').appendChild(effacerElt);
         document.getElementById('boutons').appendChild(reserverElt);
   
-       Canva.canva(); 
+       this.canva(); 
     },
     
     initAnnulation:function() {
@@ -147,11 +147,11 @@ var Canva = {
         document.getElementById('timeLeft').appendChild(compteurElt);
 
         
-        Canva.myVar = setInterval(Canva.diminuerCompteur,1000); 
+        this.myVar = setInterval(this.diminuerCompteur,1000); 
     },
     
     Stop: function() {
-      clearInterval(Canva.myVar);  
+      clearInterval(this.myVar);  
     },
     
     formulaire:function() {
@@ -170,14 +170,14 @@ var Canva = {
         nomInput.id="nom";
         nomElt.textContent = "Nom: ";
         nomElt.appendChild(nomInput);
-        Canva.signerElt = document.createElement('input');
-        Canva.signerElt.id="signer";
-        Canva.signerElt.type="button";
-        Canva.signerElt.value="signer";
+        this.signerElt = document.createElement('input');
+        this.signerElt.id="signer";
+        this.signerElt.type="button";
+        this.signerElt.value="signer";
             
         formElt.appendChild(prenomElt);
         formElt.appendChild(nomElt);
-        formElt.appendChild(Canva.signerElt);
+        formElt.appendChild(this.signerElt);
             
         document.getElementById('resa').appendChild(formElt);
 
@@ -194,7 +194,7 @@ var Canva = {
     
     signature: function() {
     
-        Canva.formulaire();
+        this.formulaire();
         document.getElementById('current').innerHTML="";
     
         $('#signer').on('click',function(e) {
@@ -241,14 +241,14 @@ var Canva = {
 
     annulResa:function() {
         
-        Canva.Stop();
-        Canva.velo = Canva.velo+1;
+        this.Stop();
+        this.velo = this.velo+1;
         localStorage.removeItem('station');
         localStorage.removeItem('velo'); 
         localStorage.removeItem('difference'); 
         localStorage.removeItem('time');
         document.getElementById('timer').textContent = "Reservation annulée";
-        document.getElementById('formulaire').appendChild(Canva.signerElt);
+        document.getElementById('formulaire').appendChild(this.signerElt);
         document.getElementById('current').innerHTML="";
 
     },
