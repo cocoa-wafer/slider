@@ -20,17 +20,18 @@ var Canva = {
     },
     
     canva: function() { 
-
+        var This = this;
         var canvas = document.getElementById('canva');
         var ctx = canvas.getContext('2d');
         var isDrawing;
         ctx.lineWidth = 4 ;
+        
 
         
         $('#canva').on('mousedown',function(e){
             isDrawing = true;
             ctx.beginPath();
-            var mousePos = Canva.getMousePos(canvas, e);
+            var mousePos = This.getMousePos(canvas, e);
             ctx.moveTo(mousePos.x, mousePos.y);
             document.getElementById('canva').setAttribute('class','active');
 
@@ -38,7 +39,7 @@ var Canva = {
                 
         $('#canva').on('mousemove',function(e){
             if (isDrawing) {
-                var mousePos = Canva.getMousePos(canvas, e);
+                var mousePos = This.getMousePos(canvas, e);
                 ctx.lineTo(mousePos.x, mousePos.y);
                 ctx.stroke();
             }
@@ -51,7 +52,7 @@ var Canva = {
                 
         $('#effacer').on('click',function(e){
             e.preventDefault();
-            Canva.clearArea(ctx,canvas); 
+            This.clearArea(ctx,canvas); 
          });
 
 
@@ -95,11 +96,10 @@ var Canva = {
     },
     
     diminuerCompteur:function() {
-                         
+        var This = this;          
         var e = new Date();
         var resaTimestamp = localStorage.getItem('time');
-        var f= e.getTime();
-                           
+        var f= e.getTime();                
                            
         // difference en ms entre resa et maintenant
         var difference = f - resaTimestamp;
@@ -116,13 +116,13 @@ var Canva = {
                             
         if (difference >= 1200000) {
             document.getElementById('timer').innerHTML = "réservation expirée";
-            Canva.Stop();
+            This.Stop();
             localStorage.removeItem('station');
             localStorage.removeItem('velo');
             localStorage.removeItem('time');
             localStorage.removeItem('difference');
             document.getElementById('current').innerHTML="";
-            document.getElementById('formulaire').appendChild(Canva.signerElt);
+            document.getElementById('formulaire').appendChild(This.signerElt);
 
         }            
         
@@ -193,21 +193,21 @@ var Canva = {
 
     
     signature: function() {
-    
+    var This = this;
         this.formulaire();
         document.getElementById('current').innerHTML="";
     
         $('#signer').on('click',function(e) {
             e.preventDefault();
-            document.getElementById('formulaire').removeChild(Canva.signerElt);
-            Canva.initResa();    
-            Canva.resa();
+            document.getElementById('formulaire').removeChild(This.signerElt);
+            This.initResa();    
+            This.resa();
         });
 
     },
     
     resa:function() {
-    
+        var This = this;
         $('#reserver').on('click',function(e){
             e.preventDefault();
             prenom = $('#prenom').val();
@@ -217,7 +217,7 @@ var Canva = {
 
             if (localStorage.getItem('station')) {
 
-                Canva.initAnnulation();
+                This.initAnnulation();
                 var attentionElt = document.createElement('p');
                 attentionElt.textContent ="station déjà réservée en attente";
                 attentionElt.id="attention";
@@ -225,14 +225,14 @@ var Canva = {
                 document.getElementById('attention').style.color = "red";
                 
                 $('#annuler').on('click',function(){
-                    Canva.annulResa();
+                    This.annulResa();
                 });
                 
                     
                     
             } else {
                 
-                Canva.confirmResa();
+                This.confirmResa();
                 
             }
   
@@ -254,7 +254,7 @@ var Canva = {
     },
     
     confirmResa:function() {
-        
+        var This = this;
         if ($('#canva').hasClass('active')) {
             if ((localStorage.getItem('prenom').length >=1) && (localStorage.getItem('nom').length>=1) ){
                         
@@ -273,8 +273,8 @@ var Canva = {
                 this.timer();
 
                 $('#annuler').on('click',function(){
-                    Canva.annulResa();
-                    document.getElementById('velos').textContent = "velos disponibles: " + Canva.velo;
+                    This.annulResa();
+                    document.getElementById('velos').textContent = "velos disponibles: " + This.velo;
                    
                 });
                         
